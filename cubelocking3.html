@@ -1,0 +1,882 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>CubeLocking</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="bootstrap.min.css" type="text/css">
+
+    <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        body {
+            font-family: Monospace;
+            font-size: 12px;
+            background-color: #fafafa;
+            margin: 0px;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
+<body background="img\background.jpg">
+<div class="logo" style="position: fixed; top:0; left: 0; margin: 20px">
+    <img src="cubelocking0.png" style="width: 200px">
+</div>
+<div class="btn-group-md" style="position: fixed; top:30px;right: 30px; ">
+    <button type="button" class="btn btn-default" id="btnNew">New</button>
+    <button type="button" class="btn btn-default" id="btnOpen">Open</button>
+    <button type="button" class="btn btn-default" id="btnSave">Save</button>
+    <button type="button" class="btn btn-warning" style="margin: 0 0 0 20px " >Verify</button>
+</div>
+<div class="btn-group-vertical" style="position: fixed; top:250px;right: 30px; ">
+    <button type="button" class="btn btn-default" id="btnAdd" style="margin: 15px 0  ">Add</button>
+    <button type="button" class="btn btn-default" id="btnDelete" style="margin: 15px 0  ">Delete</button>
+    <button type="button" class="btn btn-default" id="btnMerge" style="margin: 15px 0 ">Merge</button>
+    <button type="button" class="btn btn-default" id="btnDismerge" style="margin: 15px 0 ">Dismerge</button>
+    <button type="button" class="btn btn-default" id="btnMulSelect" style="margin: 15px 0 ">MulSelect</button>
+    <button type="button" class="btn btn-danger" id="btnPrint" style="margin: 15px 0 ">Print</button>
+</div>
+<div class="btn-group-vertical" style="position: fixed; top:180px;left: 16px; ">
+    <button type="button" class="btn btn-default" id="color0" style="margin: 15px;height: 30px; width: 30px;background: #de41aa;border: none"></button>
+    <button type="button" class="btn btn-default" id="color1" style="margin: 15px;height: 30px; width: 30px;background: #9d35a2;border: none"></button>
+    <button type="button" class="btn btn-default" id="color2" style="margin: 15px;height: 30px; width: 30px;background: #5999fc;border: none"></button>
+    <button type="button" class="btn btn-default" id="color3" style="margin: 15px;height: 30px; width: 30px;background: #68c5fb;border: none"></button>
+    <button type="button" class="btn btn-default" id="color4" style="margin: 15px;height: 30px; width: 30px;background: #89f1fa;border: none"></button>
+    <button type="button" class="btn btn-default" id="color5" style="margin: 15px;height: 30px; width: 30px;background: #7cba29;border: none"></button>
+    <button type="button" class="btn btn-default" id="color6" style="margin: 15px;height: 30px; width: 30px;background: #a3d34b;border: none"></button>
+    <button type="button" class="btn btn-default" id="color7" style="margin: 15px;height: 30px; width: 30px;background: #ffff34;border: none"></button>
+    <button type="button" class="btn btn-default" id="color8" style="margin: 15px;height: 30px; width: 30px;background: #ec9843;border: none"></button>
+    <button type="button" class="btn btn-default" id="color9" style="margin: 15px;height: 30px; width: 30px;background: #ec4335;border: none"></button>
+</div>
+<div class="thumbnailbourder" style="position: fixed;bottom:0px;height: 115px;width: 100%;">
+    <div class="thumbnailchild" id="thumb0" style="float: left;height: 100px;width: 175px;margin: 5px 5px 5px 10px; background-color: #dddddd"></div>
+    <div class="thumbnailchild" id="thumb1" style="float: left;height: 100px;width: 175px;margin: 5px 5px; background-color: #dddddd"></div>
+    <div class="thumbnailchild" id="thumb2" style="float: left;height: 100px;width: 175px;margin: 5px 5px; background-color: #dddddd"></div>
+    <div class="thumbnailchild" id="thumb3" style="float: left;height: 100px;width: 175px;margin: 5px 5px; background-color: #dddddd"></div>
+    <div class="thumbnailchild" id="thumb4" style="float: left;height: 100px;width: 175px;margin: 5px 5px; background-color: #dddddd"></div>
+    <div class="thumbnailchild" id="thumb5" style="float: left;height: 100px;width: 175px;margin: 5px 5px; background-color: #dddddd"></div>
+    <div class="thumbnailchild" id="thumb6" style="float: left;height: 100px;width: 175px;margin: 5px 5px; background-color: #dddddd"></div>
+    <div class="thumbnailchild" id="thumb7" style="float: left;height: 100px;width: 175px;margin: 5px 5px; background-color: #dddddd"></div>
+    <div class="thumbnailchild" id="thumb8" style="float: left;height: 100px;width: 175px;margin: 5px 5px; background-color: #dddddd"></div>
+</div>>
+<script type="text/javascript" src="js/ThreeCanvas.js"></script>
+<script type="text/javascript" src="js/Cube.js"></script>
+<script type="text/javascript" src="js/Plane.js"></script>
+<script type="text/javascript" src="js/FileSaver.js"></script>
+<script type="text/javascript" src="js/mesh.js"></script>
+
+<script type="text/javascript" src="js/detector.js"></script>
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-86951-7']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+    })();
+</script>
+
+<script type="text/javascript">
+
+    var container, interval,
+            camera, scene,scene00,scene01,scene02,scene03,scene04,scene05,scene06,scene07,scene08,scene09,
+            renderer,renderer00,renderer01,renderer02,renderer03,renderer04,renderer05,renderer06,renderer07,renderer08,renderer09,
+            thumb00,thumb01,thumb02,thumb03,thumb04,thumb05,thumb06,thumb07,thumb08,thumb09,
+            projector, plane, cube, linesMaterial,
+            color = 0,colors = [ 0xde41aa, 0x9d35a2, 0x5999fc, 0x68c5fb, 0x89f1fa, 0x7cba29, 0xa3d34b, 0xffff34, 0xec9843, 0xec4335 ],
+            ray, brush, objectHovered,
+            mouse3D, isMouseDown = false, onMouseDownPosition,
+            radious = 1600, theta = 45, onMouseDownTheta = 45, phi = 60, onMouseDownPhi = 60,
+            isShiftDown = false;
+    isMultiselectDown = false;
+    isDelete = false;
+
+    init();
+    render();
+
+    function init() {
+
+        container = document.createElement( 'div' );
+        document.body.appendChild( container );
+        thumb00 = document.getElementById('thumb0');
+        thumb01 = document.getElementById('thumb1');
+        thumb02 = document.getElementById('thumb2');
+        thumb03 = document.getElementById('thumb3');
+        thumb04 = document.getElementById('thumb4');
+        thumb05 = document.getElementById('thumb5');
+        thumb06 = document.getElementById('thumb6');
+        thumb07 = document.getElementById('thumb7');
+        thumb08 = document.getElementById('thumb8');
+
+        var info = document.createElement( 'div' );
+        info.style.position = 'absolute';
+        info.style.top = '5px';
+        info.style.width = '100%';
+        info.style.textAlign = 'center';
+
+        //info.innerHTML = '<span style="color: #444; background-color: #fff; border-bottom: 1px solid #ddd; padding: 8px 10px; text-transform: uppercase;"><strong>0 - 9</strong>: colors, <strong>click</strong>: add voxel, <strong>shift + click</strong>: remove voxel, <strong>drag</strong>: rotate | <a id="link" href="" target="_blank">share</a> <a href="javascript:save();">save</a> <a href="javascript:clear();">clear</a></span>';
+
+        container.appendChild( info );
+
+        camera = new THREE.Camera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+        camera.position.x = radious * Math.sin( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
+        camera.position.y = radious * Math.sin( phi * Math.PI / 360 );
+        camera.position.z = radious * Math.cos( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
+        camera.target.position.y = 50;
+
+        scene = new THREE.Scene();
+        scene00 = new THREE.Scene();
+        scene01 = new THREE.Scene();
+        scene02 = new THREE.Scene();
+        scene03 = new THREE.Scene();
+        scene04 = new THREE.Scene();
+        scene05 = new THREE.Scene();
+        scene06 = new THREE.Scene();
+        scene07 = new THREE.Scene();
+        scene08 = new THREE.Scene();
+
+
+
+
+        // Grid
+
+        var geometry = new THREE.Geometry();
+        geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( - 500, 0, 0 ) ) );
+        geometry.vertices.push( new THREE.Vertex( new THREE.Vector3( 500, 0, 0 ) ) );
+
+        linesMaterial = new THREE.LineColorMaterial( 0x000000, 0.2 );
+
+        for ( var i = 0; i <= 20; i ++ ) {
+
+            var line = new THREE.Line( geometry, linesMaterial );
+            line.position.z = ( i * 50 ) - 500;
+            scene.addObject( line );
+            scene00.addObject( line );
+            scene01.addObject( line );
+            scene02.addObject( line );
+            scene03.addObject( line );
+            scene04.addObject( line );
+            scene05.addObject( line );
+            scene06.addObject( line );
+            scene07.addObject( line );
+            scene08.addObject( line );
+
+
+
+            var line = new THREE.Line( geometry, linesMaterial );
+            line.position.x = ( i * 50 ) - 500;
+            line.rotation.y = 90 * Math.PI / 180;
+            scene.addObject( line );
+            scene00.addObject( line );
+            scene01.addObject( line );
+            scene02.addObject( line );
+            scene03.addObject( line );
+            scene04.addObject( line );
+            scene05.addObject( line );
+            scene06.addObject( line );
+            scene07.addObject( line );
+            scene08.addObject( line );
+
+
+
+
+        }
+
+        projector = new THREE.Projector();
+
+        plane = new THREE.Mesh( new Plane( 1000, 1000 ) );
+        plane.rotation.x = - 90 * Math.PI / 180;
+        scene.addObject( plane );
+        scene00.addObject( plane );
+        scene01.addObject( plane );
+        scene02.addObject( plane );
+        scene03.addObject( plane );
+        scene04.addObject( plane );
+        scene05.addObject( plane );
+        scene06.addObject( plane );
+        scene07.addObject( plane );
+        scene08.addObject( plane );
+
+
+
+        cube = new Cube( 50, 50, 50 );
+
+        ray = new THREE.Ray( camera.position, null );
+
+        brush = new THREE.Mesh( cube, new THREE.MeshColorFillMaterial( colors[ color ], 0.4 ) );
+        brush.position.y = 2000;
+        brush.overdraw = true;
+        scene.addObject( brush );
+
+
+
+        onMouseDownPosition = new THREE.Vector2();
+
+        // Lights
+
+        var ambientLight = new THREE.AmbientLight( 0x606060 );
+        scene.addLight( ambientLight );
+        scene00.addLight( ambientLight );
+        scene01.addLight( ambientLight );
+        scene02.addLight( ambientLight );
+        scene03.addLight( ambientLight );
+        scene04.addLight( ambientLight );
+        scene05.addLight( ambientLight );
+        scene06.addLight( ambientLight );
+        scene07.addLight( ambientLight );
+        scene08.addLight( ambientLight );
+
+
+
+
+        var directionalLight = new THREE.DirectionalLight( 0xffffff );
+        directionalLight.position.x = 1;
+        directionalLight.position.y = 1;
+        directionalLight.position.z = 0.75;
+        directionalLight.position.normalize();
+        scene.addLight( directionalLight );
+        scene00.addLight( directionalLight );
+        scene01.addLight( directionalLight );
+        scene02.addLight( directionalLight );
+        scene03.addLight( directionalLight );
+        scene04.addLight( directionalLight );
+        scene05.addLight( directionalLight );
+        scene06.addLight( directionalLight );
+        scene07.addLight( directionalLight );
+        scene08.addLight( directionalLight );
+
+
+
+
+        var directionalLight = new THREE.DirectionalLight( 0x808080 );
+        directionalLight.position.x = - 1;
+        directionalLight.position.y = 1;
+        directionalLight.position.z = - 0.75;
+        directionalLight.position.normalize();
+        scene.addLight( directionalLight );
+        scene00.addLight( directionalLight );
+        scene01.addLight( directionalLight );
+        scene02.addLight( directionalLight );
+        scene03.addLight( directionalLight );
+        scene04.addLight( directionalLight );
+        scene05.addLight( directionalLight );
+        scene06.addLight( directionalLight );
+        scene07.addLight( directionalLight );
+        scene08.addLight( directionalLight );
+
+
+
+        renderer = new THREE.CanvasRenderer();
+        renderer00 = new THREE.CanvasRenderer();
+        renderer01 = new THREE.CanvasRenderer();
+        renderer02 = new THREE.CanvasRenderer();
+        renderer03 = new THREE.CanvasRenderer();
+        renderer04 = new THREE.CanvasRenderer();
+        renderer05 = new THREE.CanvasRenderer();
+        renderer06 = new THREE.CanvasRenderer();
+        renderer07 = new THREE.CanvasRenderer();
+        renderer08 = new THREE.CanvasRenderer();
+
+
+
+        renderer.setSize( window.innerWidth, window.innerHeight-100 );
+        renderer00.setSize( window.innerWidth/8, (window.innerHeight-100)/8 );
+        renderer01.setSize( window.innerWidth/8, (window.innerHeight-100)/8 );
+        renderer02.setSize( window.innerWidth/8, (window.innerHeight-100)/8 );
+        renderer03.setSize( window.innerWidth/8, (window.innerHeight-100)/8 );
+        renderer04.setSize( window.innerWidth/8, (window.innerHeight-100)/8 );
+        renderer05.setSize( window.innerWidth/8, (window.innerHeight-100)/8 );
+        renderer06.setSize( window.innerWidth/8, (window.innerHeight-100)/8 );
+        renderer07.setSize( window.innerWidth/8, (window.innerHeight-100)/8 );
+        renderer08.setSize( window.innerWidth/8, (window.innerHeight-100)/8 );
+
+
+
+
+        container.appendChild(renderer.domElement);
+        thumb00.appendChild(renderer00.domElement);
+        thumb01.appendChild(renderer01.domElement);
+        thumb02.appendChild(renderer02.domElement);
+        thumb03.appendChild(renderer03.domElement);
+        thumb04.appendChild(renderer04.domElement);
+        thumb05.appendChild(renderer05.domElement);
+        thumb06.appendChild(renderer06.domElement);
+        thumb07.appendChild(renderer07.domElement);
+        thumb08.appendChild(renderer08.domElement);
+
+
+
+
+
+        document.addEventListener( 'keydown', onDocumentKeyDown, false );
+        document.addEventListener( 'keyup', onDocumentKeyUp, false );
+
+        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+        document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+        document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+
+        document.addEventListener( 'mousewheel', onDocumentMouseWheel, false );
+
+        if ( window.location.hash ) {
+
+            buildFromHash();
+
+        }
+
+    }
+
+    function onDocumentKeyDown( event ) {
+
+        switch( event.keyCode ) {
+
+            case 49: setBrushColor( 0 ); break;
+            case 50: setBrushColor( 1 ); break;
+            case 51: setBrushColor( 2 ); break;
+            case 52: setBrushColor( 3 ); break;
+            case 53: setBrushColor( 4 ); break;
+            case 54: setBrushColor( 5 ); break;
+            case 55: setBrushColor( 6 ); break;
+            case 56: setBrushColor( 7 ); break;
+            case 57: setBrushColor( 8 ); break;
+            case 48: setBrushColor( 9 ); break;
+
+            case 16: isShiftDown = true; isMultiselectDown = true; interact(); render(); $('#btnMulSelect').css("class","btn btn-primary disabled");break;
+
+            case 37: offsetScene( - 1, 0 ); break;
+            case 38: offsetScene( 0, - 1 ); break;
+            case 39: offsetScene( 1, 0 ); break;
+            case 40: offsetScene( 0, 1 ); break;
+
+        }
+
+    }
+
+    function onDocumentKeyUp( event ) {
+
+        switch( event.keyCode ) {
+
+            case 16: isShiftDown = false; isMultiselectDown = false; interact(); render(); $('#btnMulSelect').css("class","btn btn-primary active");break;
+
+        }
+
+    }
+
+    function onDocumentMouseDown( event ) {
+
+        event.preventDefault();
+
+        isMouseDown = true;
+
+        onMouseDownTheta = theta;
+        onMouseDownPhi = phi;
+        onMouseDownPosition.x = event.clientX;
+        onMouseDownPosition.y = event.clientY;
+
+    }
+
+    function onDocumentMouseMove( event ) {
+
+        event.preventDefault();
+
+        if ( isMouseDown ) {
+
+            theta = - ( ( event.clientX - onMouseDownPosition.x ) * 0.5 ) + onMouseDownTheta;
+            phi = ( ( event.clientY - onMouseDownPosition.y ) * 0.5 ) + onMouseDownPhi;
+
+            phi = Math.min( 180, Math.max( 0, phi ) );
+
+            camera.position.x = radious * Math.sin( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
+            camera.position.y = radious * Math.sin( phi * Math.PI / 360 );
+            camera.position.z = radious * Math.cos( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
+            camera.updateMatrix();
+
+        }
+
+        mouse3D = projector.unprojectVector( new THREE.Vector3( ( event.clientX / renderer.domElement.width ) * 2 - 1, - ( event.clientY / renderer.domElement.height ) * 2 + 1, 0.5 ), camera );
+        ray.direction = mouse3D.subSelf( camera.position ).normalize();
+
+        interact();
+        render();
+
+    }
+
+    function onDocumentMouseUp( event ) {
+        event.preventDefault();
+        isMouseDown = false;
+        //onMouseDownPosition.x = event.clientX ;
+        //onMouseDownPosition.y = event.clientY ;
+        onMouseDownPosition.x = event.clientX - onMouseDownPosition.x;
+        onMouseDownPosition.y = event.clientY - onMouseDownPosition.y;
+        if ( onMouseDownPosition.length() > 5 ) {
+            return;
+        }
+        var intersect, intersects = ray.intersectScene( scene );
+        if ( intersects.length > 0 ) {
+            intersect = intersects[ 0 ].object == brush ? intersects[ 1 ] : intersects[ 0 ];
+            if ( intersect ) {
+                if ( isDelete ) {
+                    if ( intersect.object != plane ) {
+                        scene.removeObject( intersect.object );
+                        scene00.removeObject( intersect.object );
+                        scene01.removeObject( intersect.object );
+                        scene02.removeObject( intersect.object );
+                        scene03.removeObject( intersect.object );
+                        scene04.removeObject( intersect.object );
+                        scene05.removeObject( intersect.object );
+                        scene06.removeObject( intersect.object );
+                        scene07.removeObject( intersect.object );
+                        scene08.removeObject( intersect.object );
+                    }
+                } else{ if(isMultiselectDown){
+                    intersect.object.material[ 0 ].color.a = 0.5;
+                    //alert("zzzzzz");
+                    intersect.object.material[ 0 ].color.updateStyleString();
+                    //alert("yyyyyyyy")
+                }
+                else {
+                    var position = new THREE.Vector3().add(intersect.point, intersect.object.matrixRotation.transform(intersect.face.normal.clone()));
+                    var voxel = new THREE.Mesh(cube, new THREE.MeshColorFillMaterial(colors[color]));
+                    voxel.position.x = Math.floor(position.x / 50) * 50 + 25;
+                    voxel.position.y = Math.floor(position.y / 50) * 50 + 25;
+                    voxel.position.z = Math.floor(position.z / 50) * 50 + 25;
+                    voxel.overdraw = true;
+                    scene.addObject(voxel);
+                    if(color==0){scene00.addObject(voxel);}
+                    if(color==1){scene01.addObject(voxel);}
+                    if(color==2){scene02.addObject(voxel);}
+                    if(color==3){scene03.addObject(voxel);}
+                    if(color==4){scene04.addObject(voxel);}
+                    if(color==5){scene05.addObject(voxel);}
+                    if(color==6){scene06.addObject(voxel);}
+                    if(color==7){scene07.addObject(voxel);}
+                    if(color==8){scene08.addObject(voxel);}
+                    if(color==9){scene09.addObject(voxel);}
+
+
+
+                }
+                }
+            }
+        }
+        updateHash();
+        interact();
+        render();
+    }
+
+    function onDocumentMouseWheel( event ) {
+
+        radious -= event.wheelDeltaY;
+
+        camera.position.x = radious * Math.sin( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
+        camera.position.y = radious * Math.sin( phi * Math.PI / 360 );
+        camera.position.z = radious * Math.cos( theta * Math.PI / 360 ) * Math.cos( phi * Math.PI / 360 );
+        camera.updateMatrix();
+
+        interact();
+        render();
+
+    }
+
+    function setBrushColor( value ) {
+
+        color = value;
+        brush.material[ 0 ].color.setHex( colors[ color ] ^ 0x4C000000 );
+
+        render();
+
+    }
+
+    function buildFromHash() {
+
+        var hash = window.location.hash.substr( 1 ),
+                version = hash.substr( 0, 2 );
+
+        if ( version == "A/" ) {
+
+            var current = { x: 0, y: 0, z: 0, c: 0 }
+            var data = decode( hash.substr( 2 ) );
+            var i = 0, l = data.length;
+
+            while ( i < l ) {
+
+                var code = data[ i ++ ].toString( 2 );
+
+                if ( code.charAt( 1 ) == "1" ) current.x += data[ i ++ ] - 32;
+                if ( code.charAt( 2 ) == "1" ) current.y += data[ i ++ ] - 32;
+                if ( code.charAt( 3 ) == "1" ) current.z += data[ i ++ ] - 32;
+                if ( code.charAt( 4 ) == "1" ) current.c += data[ i ++ ] - 32;
+                if ( code.charAt( 0 ) == "1" ) {
+
+                    var voxel = new THREE.Mesh( cube, new THREE.MeshColorFillMaterial( colors[ current.c ] ) );
+                    voxel.position.x = current.x * 50 + 25;
+                    voxel.position.y = current.y * 50 + 25;
+                    voxel.position.z = current.z * 50 + 25;
+                    voxel.overdraw = true;
+
+                    scene.addObject( voxel );
+                    scene00.addObject( voxel );
+                    scene01.addObject( voxel );
+                    scene02.addObject( voxel );
+                    scene03.addObject( voxel );
+                    scene04.addObject( voxel );
+                    scene05.addObject( voxel );
+                    scene06.addObject( voxel );
+                    scene07.addObject( voxel );
+                    scene08.addObject( voxel );
+                    scene09.addObject( voxel );
+
+
+                }
+            }
+
+        } else {
+
+            var data = decode( hash );
+
+            for ( var i = 0; i < data.length; i += 4 ) {
+
+                var voxel = new THREE.Mesh( cube, new THREE.MeshColorFillMaterial( colors[ data[ i + 3 ] ] ) );
+                voxel.position.x = ( data[ i ] - 20 ) * 25;
+                voxel.position.y = ( data[ i + 1 ] + 1 ) * 25;
+                voxel.position.z = ( data[ i + 2 ] - 20 ) * 25;
+                voxel.overdraw = true;
+
+                scene.addObject( voxel );
+                scene00.addObject( voxel );
+                scene01.addObject( voxel );
+                scene02.addObject( voxel );
+                scene03.addObject( voxel );
+                scene04.addObject( voxel );
+                scene05.addObject( voxel );
+                scene06.addObject( voxel );
+                scene07.addObject( voxel );
+                scene08.addObject( voxel );
+                scene09.addObject( voxel );
+
+
+
+            }
+
+        }
+
+        updateHash();
+
+    }
+
+
+
+
+
+    /* function saveSTL(scene ){
+     var exporter = new THREE.STLExporter();
+     var stlString = exporter.parse( scene );
+
+     var blob = new Blob([stlString], {type: 'text/plain'});
+
+     saveAs(blob, 'yyvox.stl');
+     }*/
+    function savestl() {
+        var stl = startExport();
+        //  alert("aaaaaaaaaaaaa");
+
+        var blob = new Blob([stl], {type: 'text/plain'});
+        //alert("fffffff");
+        saveAs(blob, 'pixel_printer.stl');
+        //alert("ggggggg");
+    }
+
+    function startExport(){
+        //alert("bbbbbbbb");
+
+        geometrytt = removeDuplicateFaces( geometrytt );
+        //alert("cccccccccccc");
+        THREE.GeometryUtils.triangulateQuads( geometrytt );
+        //alert("ddddddddddd");
+        var stl = generateSTL( geometrytt );
+        //alert("eeeeeeee");
+        return stl;
+    }
+
+    function updateHash() {
+
+        var data = [],
+                current = { x: 0, y: 0, z: 0, c: 0 },
+                last = { x: 0, y: 0, z: 0, c: 0 },
+                code;
+
+        for ( var i in scene.objects ) {
+
+            object = scene.objects[ i ];
+
+            if ( object instanceof THREE.Mesh && object !== plane && object !== brush ) {
+
+                current.x = ( object.position.x - 25 ) / 50;
+                current.y = ( object.position.y - 25 ) / 50;
+                current.z = ( object.position.z - 25 ) / 50;
+                current.c = colors.indexOf( object.material[ 0 ].color.hex & 0xffffff );
+
+                code = 0;
+
+                if ( current.x != last.x ) code += 1000;
+                if ( current.y != last.y ) code += 100;
+                if ( current.z != last.z ) code += 10;
+                if ( current.c != last.c ) code += 1;
+
+                code += 10000;
+
+                data.push( parseInt( code, 2 ) );
+
+                if ( current.x != last.x ) {
+
+                    data.push( current.x - last.x + 32 );
+                    last.x = current.x;
+
+                }
+
+                if ( current.y != last.y ) {
+
+                    data.push( current.y - last.y + 32 );
+                    last.y = current.y;
+
+                }
+
+                if ( current.z != last.z ) {
+
+                    data.push( current.z - last.z + 32 );
+                    last.z = current.z;
+
+                }
+
+                if ( current.c != last.c ) {
+
+                    data.push( current.c - last.c + 32 );
+                    last.c = current.c;
+
+                }
+
+            }
+
+        }
+
+        data = encode( data );
+        window.location.hash = "A/" + data;
+        document.getElementById( 'link' ).href = "http://mrdoob.com/projects/voxels/#A/" + data;
+
+    }
+
+    function offsetScene( x, z ) {
+
+        var offset = new THREE.Vector3( x, 0, z ).multiplyScalar( 50 );
+
+        for ( var i in scene.objects ) {
+
+            object = scene.objects[ i ];
+
+            if ( object instanceof THREE.Mesh && object !== plane && object !== brush ) {
+
+                object.position.addSelf( offset );
+
+            }
+
+        }
+
+        updateHash();
+        interact();
+        render();
+
+    }
+
+    function interact() {
+
+        if ( objectHovered ) {
+
+            objectHovered.material[ 0 ].color.a = 1;
+            objectHovered.material[ 0 ].color.updateStyleString();
+            objectHovered = null;
+
+        }
+
+        var position, intersect, intersects = ray.intersectScene( scene );
+
+        if ( intersects.length > 0 ) {
+
+            intersect = intersects[ 0 ].object != brush ? intersects[ 0 ] : intersects[ 1 ];
+
+            if ( intersect ) {
+
+                if ( isDelete ) {
+
+                    if ( intersect.object != plane ) {
+
+                        objectHovered = intersect.object;
+                        objectHovered.material[ 0 ].color.a = 0.5;
+                        objectHovered.material[ 0 ].color.updateStyleString();
+
+                        return;
+
+                    }
+
+                } else if( isMultiselectDown){
+                    if ( intersect.object != plane ) {
+
+                        objectHovered = intersect.object;
+                        objectHovered.material[ 0 ].color.a = 0.5;
+                        objectHovered.material[ 0 ].color.updateStyleString();
+
+
+
+                    }
+                    position = new THREE.Vector3().add( intersect.point, intersect.object.matrixRotation.transform( intersect.face.normal.clone() ) );
+
+
+
+                    return;
+                }
+                else{
+
+                    position = new THREE.Vector3().add( intersect.point, intersect.object.matrixRotation.transform( intersect.face.normal.clone() ) );
+
+                    brush.position.x = Math.floor( position.x / 50 ) * 50 + 25;
+                    brush.position.y = Math.floor( position.y / 50 ) * 50 + 25;
+                    brush.position.z = Math.floor( position.z / 50 ) * 50 + 25;
+
+                    return;
+
+                }
+
+            }
+
+        }
+
+        brush.position.y = 2000;
+
+    }
+
+    function render() {
+
+        renderer.render( scene, camera );
+        //renderer.render( scene00, camera );
+        //renderer.render( scene01, camera );
+        renderer00.render(scene00,camera);
+        renderer01.render(scene01,camera);
+        renderer02.render(scene02,camera);
+        renderer03.render(scene03,camera);
+        renderer04.render(scene04,camera);
+        renderer05.render(scene05,camera);
+        renderer06.render(scene06,camera);
+        renderer07.render(scene07,camera);
+        renderer08.render(scene08,camera);
+        renderer09.render(scene09,camera);
+
+
+
+
+    }
+
+    function save() {
+
+        linesMaterial.color.setRGBA( 0, 0, 0, 0 );
+        brush.position.y = 2000;
+        render();
+
+        window.open( renderer.domElement.toDataURL('image/png'), 'mywindow' );
+
+        linesMaterial.color.setRGBA( 0, 0, 0, 0.2 );
+        render();
+
+    }
+
+    function clear() {
+        if ( !confirm( 'The current Scene will be clear. Are you sure?' ) ) {
+            return
+        }
+        window.location.hash = "";
+        var i = 0;
+        while ( i < scene.objects.length ) {
+            object = scene.objects[ i ];
+            if ( object instanceof THREE.Mesh && object !== plane && object !== brush ) {
+                scene.removeObject( object );
+                continue;
+            }
+            i ++;
+        }
+        updateHash();
+        render();
+    }
+
+    // https://gist.github.com/665235
+
+    function decode( string ) {
+
+        var output = [];
+        string.split('').forEach( function ( v ) { output.push( "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf( v ) ); } );
+        return output;
+
+    }
+
+    function encode( array ) {
+
+        var output = "";
+        array.forEach( function ( v ) { output += "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".charAt( v ); } );
+        return output;
+
+    }
+
+</script>
+<script>
+    $('#btnNew').on('click', function () {
+        clear();
+    });
+    $('#color0').on('click', function () {
+        setBrushColor( 0 );
+    });
+    $('#color1').on('click', function () {
+        setBrushColor( 1 );
+    });
+    $('#color2').on('click', function () {
+        setBrushColor( 2 );
+    });
+    $('#color3').on('click', function () {
+        setBrushColor( 3 );
+    });
+    $('#color4').on('click', function () {
+        setBrushColor( 4 );
+    });
+    $('#color5').on('click', function () {
+        setBrushColor( 5 );
+    });
+    $('#color6').on('click', function () {
+        setBrushColor( 6 );
+    });
+    $('#color7').on('click', function () {
+        setBrushColor( 7 );
+    });
+    $('#color8').on('click', function () {
+        setBrushColor( 8 );
+    });
+    $('#color9').on('click', function () {
+        setBrushColor( 9 );
+    });
+    $('#btnSave').on('click', function () {
+        save();
+    });
+    $('#btnPrint').on('click', function () {
+        savestl();
+    });
+    $('#btnDelete').on('click', function () {
+        if(isDelete) {isDelete=false;$('btnDelete').attr("class","btn btn-primary disabled");interact();render();}
+        else {isDelete = true; isMultiselectDown = false; $('btnDelete').attr("class","btn btn-warning");interact();render();}
+    });
+    $('#btnMulSelect').on('click', function () {
+        if(isMultiselectDown) {isMultiselectDown=false; document.getElementById("btnMulSelect").class="btn btn-warning";interact();render();}
+        else {isMultiselectDown = true;isDelete = false; document.getElementById("btnMulSelect").class="btn btn-primary";interact();render();}
+    });
+
+</script>
+
+</body>
+</html>
